@@ -1,0 +1,3 @@
+fastapi.localhost {
+    reverse_proxy fastapi
+}
