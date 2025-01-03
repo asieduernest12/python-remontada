@@ -1,0 +1,63 @@
+services:
+  flask_app:
+    image: flask:latest
+    container_name: flask_app
+    # user:
+    #   1000:1000
+    # ports:
+    #   - "5000:5000"
+    volumes:
+      - ./flask_app:/app
+    command: flask run --host=0.0.0.0
+
+  django_app:
+    image: django:latest
+    container_name: django_app
+    # user:
+    #   1000:1000
+    # ports:
+    #   - "8000:8000"
+    volumes:
+      - ./django_app:/app
+    command: python manage.py runserver 0.0.0.0:8000
+
+  fastapi:
+    build:
+      context: ./backend/fastapi
+      dockerfile: Dockerfile
+    container_name: fastapi
+    # user:
+    #   1000:1000
+    ports:
+      - '8001:80'
+    volumes:
+      - ./backend/fastapi:/app
+      - ./backend/fastapi/db:/app/db
+    command: uvicorn main:app --host 0.0.0.0 --port 80 --reload
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    # user:
+    #   1000:1000
+    ports:
+      - '8005:443'
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    environment:
+      - CADDY_AUTO_RELOAD=1
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy_data:/data
+      - ./caddy_config:/config
+    depends_on:
+      - fastapi
+      # - flask_app
+      # - django_app
+
+
+networks:
+  default:
+    driver: bridge
+
