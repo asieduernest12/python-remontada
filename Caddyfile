@@ -1,3 +1,19 @@
 fastapi.localhost {
     reverse_proxy fastapi
 }
+
+django.localhost {
+    reverse_proxy django
+}
+
+flask.localhost {
+    reverse_proxy flask
+}
+
+fastify.localhost {
+    reverse_proxy fastify
+}
+
+client.localhost {
+    reverse_proxy client:4200
+}
