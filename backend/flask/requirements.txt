@@ -1,5 +1,0 @@
-Flask
-Flask-Cors
-Flask-SQLAlchemy
-Flask-Swagger
-Flask-Swagger-Ui

@@ -10,6 +10,7 @@ flask-swagger = "*"
 flask-swagger-ui = "*"
 flask = "*"
 flasgger = "*"
+flask-restx = "*"
 
 [dev-packages]
 

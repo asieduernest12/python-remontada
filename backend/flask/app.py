@@ -51,6 +51,9 @@ def hello():
 
 @app.route('/todos/', methods=['POST'])
 def create_todo():
+    """
+    list todos
+    """
     data = request.get_json()
     todo = TodoItem(title=data['title'], description=data['description'])
     db.session.add(todo)
@@ -69,7 +72,7 @@ def read_todo(todo_id):
     todo = TodoItem.query.get_or_404(todo_id)
     return jsonify(todo.to_dict())
 
-@app.route('/todos/<int:todo_id>', methods=['PUT'])
+@app.route('/todos/<int:todo_id>', methods=['PATCH'])
 def update_todo(todo_id):
     todo = TodoItem.query.get_or_404(todo_id)
     data = request.get_json()
@@ -101,5 +104,7 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 )
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=5000)
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('DEBUG', 'False').lower() in ['true', '1', 't']
+    app.run(host='0.0.0.0', port=port, debug=debug)
