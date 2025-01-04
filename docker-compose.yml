@@ -1,55 +1,54 @@
 services:
-  flask_app:
-    image: flask:latest
-    container_name: flask_app
-    # user:
-    #   1000:1000
-    # ports:
-    #   - "5000:5000"
+  flask:
+    build:
+      context: ./backend/flask
+      dockerfile: Dockerfile
     volumes:
-      - ./flask_app:/app
-    command: flask run --host=0.0.0.0
+      - ./backend/flask:/app
+    restart: unless-stopped
+    command: pipenv run flask run --host=0.0.0.0 --port=80 --debug
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend/flask/pipfile
+          target: /app/pipfile
 
-  django_app:
+  django:
     image: django:latest
-    container_name: django_app
-    # user:
-    #   1000:1000
-    # ports:
-    #   - "8000:8000"
     volumes:
       - ./django_app:/app
+    restart: unless-stopped
     command: python manage.py runserver 0.0.0.0:8000
 
   fastapi:
     build:
       context: ./backend/fastapi
       dockerfile: Dockerfile
-    container_name: fastapi
-    # user:
-    #   1000:1000
     ports:
       - '8001:80'
     volumes:
       - ./backend/fastapi:/app
       - ./backend/fastapi/db:/app/db
+    restart: unless-stopped
     command: uvicorn main:app --host 0.0.0.0 --port 80 --reload
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend/fastapi/requirements.txt
+          target: /app/requirements.txt
 
   client:
     image: node:22-alpine
     volumes:
       - ./client:/app
     working_dir: /app
+    restart: unless-stopped
     command: sh -c "npm install && npm start -- --host=0.0.0.0"
-    depends_on: [caddy]
+ 
 
   caddy:
     image: caddy:latest
-    container_name: caddy
-    # user:
-    #   1000:1000
     ports:
-      - '8005:443'
       - '80:80'
       - '443:443'
       - '443:443/udp'
@@ -61,8 +60,14 @@ services:
       - ./caddy_config:/config
     depends_on:
       - fastapi
-      # - flask_app
+      - flask
+      - client
       # - django_app
+    # develop:
+    #   watch:
+    #     - path: ./Caddyfile
+    #       target: /etc/caddy/Caddyfile
+    #       action: sync+restart
 
 networks:
   default:

@@ -1,3 +1,7 @@
+client.localhost {
+    reverse_proxy client:4200
+}
+
 fastapi.localhost {
     reverse_proxy fastapi
 }
@@ -12,8 +16,4 @@ flask.localhost {
 
 fastify.localhost {
     reverse_proxy fastify
-}
-
-client.localhost {
-    reverse_proxy client:4200
 }
