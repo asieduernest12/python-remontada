@@ -10,8 +10,8 @@ services:
     develop:
       watch:
         - action: rebuild
-          path: ./backend/flask/pipfile
-          target: /app/pipfile
+          path: ./backend/flask/Pipfile
+          target: /app/Pipfile
 
   django:
     image: django:latest

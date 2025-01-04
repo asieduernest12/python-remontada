@@ -6,12 +6,13 @@ fastapi.localhost {
     reverse_proxy fastapi
 }
 
-django.localhost {
-    reverse_proxy django
-}
 
 flask.localhost {
     reverse_proxy flask
+}
+
+django.localhost {
+    reverse_proxy django
 }
 
 fastify.localhost {
