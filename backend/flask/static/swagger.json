@@ -1,0 +1,85 @@
+
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample server Todo server.",
+    "version": "1.0.0",
+    "title": "Todo API"
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "todos",
+      "description": "Todo management"
+    }
+  ],
+  "paths": {
+    "/todos": {
+      "get": {
+        "tags": ["todos"],
+        "summary": "Get all todos",
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "post": {
+        "tags": ["todos"],
+        "summary": "Add a new todo",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Todo object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Todo"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Todo created"
+          }
+        }
+      }
+    },
+    "/todos/{todoId}": {
+      "delete": {
+        "tags": ["todos"],
+        "summary": "Delete a todo",
+        "parameters": [
+          {
+            "name": "todoId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Todo deleted"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Todo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
