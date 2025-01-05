@@ -9,8 +9,9 @@ flask-sqlalchemy = "*"
 flask-swagger = "*"
 flask-swagger-ui = "*"
 flask = "*"
-flasgger = "*"
 flask-restx = "*"
+Flask-SQLAlchemy =  "*"
+flask-alembic = "*"
 
 [dev-packages]
 
