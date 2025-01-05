@@ -12,20 +12,36 @@ services:
         - action: rebuild
           path: ./backend/flask/Pipfile
           target: /app/Pipfile
+    mem_limit: 200mb
 
   django:
-    image: django:latest
-    volumes:
-      - ./django_app:/app
-    restart: unless-stopped
+    build:
+      context: ./backend/django
     command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend/django:/app
+    restart: unless-stopped
+    mem_limit: 200mb
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend/django/requirements.txt
+          target: /app/requirements.txt
+
+  # db:
+  #   image: postgres:13
+  #   container_name: postgres
+  #   environment:
+  #     POSTGRES_DB: mydatabase
+  #     POSTGRES_USER: myuser
+  #     POSTGRES_PASSWORD: mypassword
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
 
   fastapi:
     build:
       context: ./backend/fastapi
       dockerfile: Dockerfile
-    ports:
-      - '8001:80'
     volumes:
       - ./backend/fastapi:/app
       - ./backend/fastapi/db:/app/db
@@ -36,6 +52,7 @@ services:
         - action: rebuild
           path: ./backend/fastapi/requirements.txt
           target: /app/requirements.txt
+    mem_limit: 200mb
 
   client:
     image: node:22-alpine
@@ -44,6 +61,7 @@ services:
     working_dir: /app
     restart: unless-stopped
     command: sh -c "npm install && npm start -- --host=0.0.0.0"
+    mem_limit: 200mb
  
 
   caddy:
@@ -62,12 +80,18 @@ services:
       - fastapi
       - flask
       - client
-      # - django_app
+      - django
+    mem_limit: 200mb
+    cpu_percent: 10
+    restart: unless-stopped
     # develop:
     #   watch:
     #     - path: ./Caddyfile
     #       target: /etc/caddy/Caddyfile
     #       action: sync+restart
+
+# volumes:
+#   postgres_data:
 
 networks:
   default:
