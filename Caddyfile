@@ -12,7 +12,7 @@ flask.localhost {
 }
 
 django.localhost {
-    reverse_proxy django
+    reverse_proxy django:8000
 }
 
 fastify.localhost {
