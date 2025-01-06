@@ -5,12 +5,12 @@
 
 ### routes
  - https://client.localhost angular client
- - https://flask.localhost flask backend
- - https://fastapi.localhost fastapi backend
- - https://django.localhost django backend
+ - https://flask.localhost flask backend api
+ - https://fastapi.localhost fastapi backend api
+ - https://django.localhost django backend api
 
 ### issues
-- 
+- caddy https seems broken, visit each backend endpoint and grant access
    
 
 # Lessons
