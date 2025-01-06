@@ -1,14 +1,16 @@
 ## Python [flask,django,fastapi] rest backend connected to angular client
 
 ### Running the Clients and Backends with Docker Compose
+`docker compose up`
 
-1. **Create a `docker-compose.yml` file:**
-// ...existing code...
+### routes
+ - https://client.localhost angular client
+ - https://flask.localhost flask backend
+ - https://fastapi.localhost fastapi backend
+ - https://django.localhost django backend
 
-### Setting Up a Flask API Project
-
-1. **Navigate to the Flask folder:**
-
+### issues
+- 
    
 
 # Lessons
