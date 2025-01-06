@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask-cors = "*"
+flask-sqlalchemy = "*"
+flask-swagger = "*"
+flask-swagger-ui = "*"
+flask = "*"
+flask-restx = "*"
+Flask-SQLAlchemy =  "*"
+flask-alembic = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
