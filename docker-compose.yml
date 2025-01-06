@@ -12,7 +12,7 @@ services:
         - action: rebuild
           path: ./backend/flask/Pipfile
           target: /app/Pipfile
-    mem_limit: 200mb
+    mem_limit: 100mb
 
   django:
     build:
@@ -21,7 +21,7 @@ services:
     volumes:
       - ./backend/django:/app
     restart: unless-stopped
-    mem_limit: 200mb
+    mem_limit: 500mb
     develop:
       watch:
         - action: rebuild
@@ -52,7 +52,7 @@ services:
         - action: rebuild
           path: ./backend/fastapi/requirements.txt
           target: /app/requirements.txt
-    mem_limit: 200mb
+    mem_limit: 500mb
 
   client:
     image: node:22-alpine
@@ -62,6 +62,7 @@ services:
     restart: unless-stopped
     command: sh -c "npm install && npm start -- --host=0.0.0.0"
     mem_limit: 200mb
+
  
 
   caddy:
@@ -92,7 +93,3 @@ services:
 
 # volumes:
 #   postgres_data:
-
-networks:
-  default:
-    driver: bridge
